@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
@@ -15,11 +15,16 @@ const SignIn= () => {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleLogin = async () => {
-    console.log(credentials);
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log('1234');
     try {
-      await authService.login(credentials);
+      const response = await authService.login(credentials);
+      console.log(response.user);
       alert('Login successful!');
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     }

@@ -3,7 +3,7 @@ import axios from 'axios';
 class AuthService {
   constructor() {
     this.api = axios.create({
-      baseURL: '/api', 
+      baseURL: 'https://api.nextlevelitsolution.com/api/auth', 
       headers: {
         'Content-Type': 'application/json',
       },
