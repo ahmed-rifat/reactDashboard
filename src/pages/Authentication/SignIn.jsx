@@ -1,10 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 
 const SignIn= () => {
+
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [error, setError] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCredentials({ ...credentials, [name]: value });
+  };
+
+  const handleLogin = async () => {
+    try {
+      await authService.login(credentials);
+      alert('Login successful!');
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    }
+  };
+
   return (
     <>
       <Breadcrumb pageName="Sign In" />
@@ -164,6 +182,8 @@ const SignIn= () => {
                     <input
                       type="email"
                       placeholder="Enter your email"
+                      value={credentials.password}
+                      onChange={handleInputChange}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -195,6 +215,8 @@ const SignIn= () => {
                     <input
                       type="password"
                       placeholder="6+ Characters, 1 Capital letter"
+                      value={credentials.password}
+                      onChange={handleInputChange}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -226,6 +248,7 @@ const SignIn= () => {
                   <input
                     type="submit"
                     value="Sign In"
+                    onClick={handleLogin}
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
