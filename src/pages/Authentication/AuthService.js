@@ -1,9 +1,8 @@
 import axios from 'axios';
-
 class AuthService {
   constructor() {
     this.api = axios.create({
-      baseURL: 'https://api.nextlevelitsolution.com/api/auth', 
+      baseURL: import.meta.env.VITE_BASE_URL,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -21,13 +20,22 @@ class AuthService {
     );
   }
 
-  login = async (credentials) => {
+  login = async (loginData) => {
     try {
-      const { data } = await this.api.post('/login', credentials);
+      const { data } = await this.api.post('/login', loginData);
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  register = async (registerData) => { 
+    try {
+      const { data } = await this.api.post('/register', registerData);
       return data;
     } catch (error) {
       throw error;
@@ -41,9 +49,13 @@ class AuthService {
 
   getToken = () => localStorage.getItem('token');
 
-  getUser = () => {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+  getUser = async(userId) => {
+    try {
+      const response = await this.api.get(`/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }  
   };
 
   isAuthenticated = () => !!this.getToken();

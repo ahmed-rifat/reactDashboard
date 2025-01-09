@@ -1,9 +1,29 @@
+import { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import CoverOne from '../images/cover/cover-01.png';
 import userSix from '../images/user/user-06.png';
 import { Link } from 'react-router-dom';
+import authService from '../pages/Authentication/AuthService';
+
 
 const Profile = () => {
+
+  const [userData, setUserData] = useState();
+
+  useEffect(() => {
+    const fetchData = async (userId) => {
+      try {
+        const response = await authService.getUser(1);
+        setUserData(response);
+        console.log('User data:', userData);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchData();
+  } , []);
+
   return (
     <>
       <Breadcrumb pageName="Profile" />
