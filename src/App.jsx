@@ -15,7 +15,7 @@ import Settings from './pages/Settings';
 import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
-import DefaultLayout from './layout/DefaultLayout';
+// import DefaultLayout from './layout/DefaultLayout';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,10 +32,19 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
+    // <DefaultLayout>
       <Routes>
         <Route
           index
+          element={
+            <>
+              <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <SignIn />
+            </>
+          }
+        />
+        <Route
+          path="/ecommerce"
           element={
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
@@ -143,7 +152,7 @@ function App() {
           }
         />
       </Routes>
-    </DefaultLayout>
+    // </DefaultLayout>
   );
 }
 

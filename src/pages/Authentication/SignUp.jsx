@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
@@ -25,6 +25,7 @@ const SignUp = () => {
     password: '',
     password_confirmation: '',
   });
+  const navigate = useNavigate();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setRegisterData((prevState) => {
@@ -55,6 +56,7 @@ const SignUp = () => {
       try {
         const response = await authService.register(registerData);
         alert(response.message);
+        navigate('/auth/signin');
       } catch (error) {
       }
     }
