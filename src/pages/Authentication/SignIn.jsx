@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
+import LogoDark from '../../images/logo/NextLevelIT.jpg';
+import Logo from '../../images/logo/NextLevelIT_dark.png';
 import authService from '../Authentication/AuthService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ToastContainer, toast } from 'react-toastify';
+
+
 import {
   faEyeSlash,
   faEye,
@@ -33,7 +35,11 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const response = await authService.login(loginData);
-      alert(response.message);
+      toast.success(response?.message, {
+        position: 'top-right',
+        autoClose: 3000,
+        theme: 'light',
+      });
       navigate('/ecommerce');
     } catch (err) {
       setError(err.response.data.message);
@@ -42,13 +48,11 @@ const SignIn = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Sign In" />
-
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark rounded-xl">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
-            <div className="py-17.5 px-26 text-center">
-              <Link className="mb-5.5 inline-block" to="/">
+            <div className="min-h-screen px-26 text-center">
+              <Link className="mt-10 inline-block" to="/">
                 <img className="hidden dark:block" src={Logo} alt="Logo" />
                 <img className="dark:hidden" src={LogoDark} alt="Logo" />
               </Link>
@@ -242,14 +246,6 @@ const SignIn = () => {
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>
-
-                {/* <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
-                  <span>
-                   
-                  </span>
-                  Sign in with Google
-                </button> */}
-
                 <div className="mt-6 text-center">
                   <p>
                     Don’t have any account?{' '}
@@ -262,6 +258,7 @@ const SignIn = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </div>
     </>
   );

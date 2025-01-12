@@ -4,7 +4,7 @@ import CoverOne from '../images/cover/cover-01.png';
 import userSix from '../images/user/user-06.png';
 import { Link } from 'react-router-dom';
 import authService from '../pages/Authentication/AuthService';
-import DefaultLayout from '../../layout/DefaultLayout';
+import DefaultLayout from '../layout/DefaultLayout';
 
 
 

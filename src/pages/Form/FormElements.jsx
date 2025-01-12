@@ -12,9 +12,11 @@ import DatePickerOne from '../../components/Forms/DatePicker/DatePickerOne';
 import DatePickerTwo from '../../components/Forms/DatePicker/DatePickerTwo';
 import SelectGroupTwo from '../../components/Forms/SelectGroup/SelectGroupTwo';
 import MultiSelect from '../../components/Forms/MultiSelect';
+import DefaultLayout from '../../layout/DefaultLayout';
 
 const FormElements = () => {
   return (
+  <DefaultLayout>
     <>
       <Breadcrumb pageName="Form Elements" />
 
@@ -199,6 +201,7 @@ const FormElements = () => {
         </div>
       </div>
     </>
+  </DefaultLayout>
   );
 };
 

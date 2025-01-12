@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
+import LogoDark from '../../images/logo/NextLevelIT.jpg';
+import Logo from '../../images/logo/NextLevelIT_dark.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import authService from '../Authentication/AuthService';
+
 import {
   faUser,
   faEyeSlash,
@@ -71,8 +71,6 @@ const SignUp = () => {
   };
   return (
     <>
-      <Breadcrumb pageName="Sign Up" />
-
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
@@ -241,11 +239,11 @@ const SignUp = () => {
                   </label>
                   <div className="relative">
                     <input
-                      type="number"
+                      type="text"
                       name="phone_number"
                       value={registerData.phone_number}
                       onChange={handleInputChange}
-                      placeholder="Enter your full name"
+                      placeholder="Enter your mobile number"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
@@ -263,6 +261,7 @@ const SignUp = () => {
                     <input
                       type="email"
                       name="email"
+                      autoComplete='new-email'
                       value={registerData.email}
                       onChange={handleInputChange}
                       placeholder="Enter your email"
@@ -285,7 +284,7 @@ const SignUp = () => {
                       name="user_name"
                       value={registerData.user_name}
                       onChange={handleInputChange}
-                      placeholder="Enter your full name"
+                      placeholder="Enter your user name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 

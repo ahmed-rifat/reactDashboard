@@ -1,8 +1,11 @@
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import userThree from '../images/user/user-03.png';
+import DefaultLayout from '../layout/DefaultLayout';
+
 
 const Settings = () => {
   return (
+    <DefaultLayout>
     <>
       <div className="mx-auto max-w-270">
         <Breadcrumb pageName="Settings" />
@@ -305,6 +308,7 @@ const Settings = () => {
         </div>
       </div>
     </>
+    </DefaultLayout>
   );
 };
 
