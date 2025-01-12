@@ -2,10 +2,9 @@ import axios from 'axios';
 class AuthService {
   constructor() {
     this.api = axios.create({
-      baseURL: import.meta.env.VITE_BASE_URL,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      baseURL: 'https://api.nextlevelitsolution.com/api/auth',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      xsrfCookieName: 'XSRF-TOKEN',
     });
 
     this.api.interceptors.request.use(
@@ -18,8 +17,8 @@ class AuthService {
       },
       (error) => Promise.reject(error)
     );
-  }
-
+  };
+  
   login = async (loginData) => {
     try {
       const { data } = await this.api.post('/login', loginData);

@@ -1,43 +1,64 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import authService from '../Authentication/AuthService';
-import { faUser, faEyeSlash, faEye,faEnvelope,faPhone} from '@fortawesome/free-solid-svg-icons';
+import {
+  faUser,
+  faEyeSlash,
+  faEye,
+  faEnvelope,
+  faPhone,
+} from '@fortawesome/free-solid-svg-icons';
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [reTypeShowPassword, setReTypeShowPassword] = useState(false);
-  const [registerData, setRegisterData] = useState(
-    {
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [message, setMessage] = useState("");
+  const [registerData, setRegisterData] = useState({
     name: '',
     email: '',
     phone_number: '',
     password: '',
     password_confirmation: '',
   });
- 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setRegisterData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setRegisterData((prevState) => {
+      const updatedData = { ...prevState, [name]: value };
+      if (name === "password" || name === "password_confirmation") {
+        validatePasswords(updatedData.password, updatedData.password_confirmation);
+      }
+      return updatedData;
+    });
   };
 
-  const handleRegister = async(e) => {
-    console.log(registerData);
+  const validatePasswords = (password, confirmPassword) => {
+    if (password.length < 8) {
+      setMessage("Password must be at least 8 characters.");
+      setIsFormValid(false);
+    } else if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      setIsFormValid(false);
+    } else {
+      setMessage("Passwords match!");
+      setIsFormValid(true);
+    }
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    try {
-      const response = await authService.register('/register', registerData);
-      alert(response.message);
+    if (isFormValid) {
+      try {
+        const response = await authService.register(registerData);
+        alert(response.message);
+      } catch (error) {
+      }
     }
-    catch (error) { 
-      alert(error.message);
-    }
-  }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -200,7 +221,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      name='name'
+                      name="name"
                       value={registerData.name}
                       onChange={handleInputChange}
                       placeholder="Enter your full name"
@@ -208,7 +229,7 @@ const SignUp = () => {
                     />
 
                     <span className="absolute right-4 top-4">
-                    <FontAwesomeIcon icon={faUser} />
+                      <FontAwesomeIcon icon={faUser} />
                     </span>
                   </div>
                 </div>
@@ -219,7 +240,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="number"
-                      name='phone_number'
+                      name="phone_number"
                       value={registerData.phone_number}
                       onChange={handleInputChange}
                       placeholder="Enter your full name"
@@ -227,7 +248,7 @@ const SignUp = () => {
                     />
 
                     <span className="absolute right-4 top-4">
-                    <FontAwesomeIcon icon={faPhone} />
+                      <FontAwesomeIcon icon={faPhone} />
                     </span>
                   </div>
                 </div>
@@ -239,7 +260,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="email"
-                      name='email'
+                      name="email"
                       value={registerData.email}
                       onChange={handleInputChange}
                       placeholder="Enter your email"
@@ -247,7 +268,7 @@ const SignUp = () => {
                     />
 
                     <span className="absolute right-4 top-4">
-                    <FontAwesomeIcon icon={faEnvelope} />
+                      <FontAwesomeIcon icon={faEnvelope} />
                     </span>
                   </div>
                 </div>
@@ -259,7 +280,7 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      name='user_name'
+                      name="user_name"
                       value={registerData.user_name}
                       onChange={handleInputChange}
                       placeholder="Enter your full name"
@@ -267,7 +288,7 @@ const SignUp = () => {
                     />
 
                     <span className="absolute right-4 top-4">
-                    <FontAwesomeIcon icon={faUser} />
+                      <FontAwesomeIcon icon={faUser} />
                     </span>
                   </div>
                 </div>
@@ -279,16 +300,21 @@ const SignUp = () => {
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      name='password'
+                      name="password"
                       value={registerData.password}
                       onChange={handleInputChange}
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
-                    <span className="absolute right-4 top-4" onClick={togglePasswordVisibility}>
-                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                   </span>
+                    <span
+                      className="absolute right-4 top-4"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                      />
+                    </span>
                   </div>
                 </div>
 
@@ -298,19 +324,35 @@ const SignUp = () => {
                   </label>
                   <div className="relative">
                     <input
-                      type={reTypeShowPassword? 'text' : 'password'}
-                      name='password_confirmation'
+                      type={reTypeShowPassword ? 'text' : 'password'}
+                      name="password_confirmation"
                       value={registerData.password_confirmation}
                       onChange={handleInputChange}
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
-                    <span className="absolute right-4 top-4" onClick={togglereTypePasswordVisibility}>
-                     <FontAwesomeIcon icon={reTypeShowPassword ? faEyeSlash : faEye} />
+                    <span
+                      className="absolute right-4 top-4"
+                      onClick={togglereTypePasswordVisibility}
+                    >
+                      <FontAwesomeIcon
+                        icon={reTypeShowPassword ? faEyeSlash : faEye}
+                      />
                     </span>
                   </div>
                 </div>
+                {message && (
+                  <p
+                    className={`mt-2 text-sm font-medium ${
+                      message === 'Passwords match!'
+                        ? 'text-green-500'
+                        : 'text-red-500'
+                    }`}
+                  >
+                    {message}
+                  </p>
+                )}
 
                 <div className="mb-5">
                   <input

@@ -1,22 +1,23 @@
-import React, {useState} from 'react';
-import { Link, useNavigate  } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import authService from '../Authentication/AuthService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEyeSlash, faEye,faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import {
+  faEyeSlash,
+  faEye,
+  faEnvelope,
+} from '@fortawesome/free-solid-svg-icons';
 
-const SignIn= () => {
-
-  const [loginData, setloginData] = useState(
-    { 
-      email: '',
-      password: '' 
-    });
+const SignIn = () => {
+  const [loginData, setloginData] = useState({
+    email: '',
+    password: '',
+  });
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +34,7 @@ const SignIn= () => {
     try {
       const response = await authService.login(loginData);
       alert(response.message);
-      navigate('/');
+      navigate('/ecommerce');
     } catch (err) {
       setError(err.response.data.message);
     }
@@ -53,7 +54,8 @@ const SignIn= () => {
               </Link>
 
               <p className="2xl:px-20">
-                Log in to your account to continue using Next Level IT Solutions.
+                Log in to your account to continue using Next Level IT
+                Solutions.
               </p>
 
               <span className="mt-15 inline-block">
@@ -195,7 +197,7 @@ const SignIn= () => {
                   <div className="relative">
                     <input
                       type="email"
-                      name='email'
+                      name="email"
                       placeholder="Enter your email"
                       value={loginData.email}
                       onChange={handleInputChange}
@@ -215,15 +217,20 @@ const SignIn= () => {
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      name='password'
+                      name="password"
                       placeholder="6+ Characters, 1 Capital letter"
                       value={loginData.password}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
 
-                    <span className="absolute right-4 top-4" onClick={togglePasswordVisibility}>
-                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    <span
+                      className="absolute right-4 top-4"
+                      onClick={togglePasswordVisibility}
+                    >
+                      <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                      />
                     </span>
                   </div>
                 </div>
