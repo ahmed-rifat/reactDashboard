@@ -37,16 +37,26 @@ const SignIn = () => {
     e.preventDefault();
     try {
       const response = await authService.login(loginData);
-      toast.success(response?.message, {
-        position: 'top-right',
-        autoClose: 3000,
-        theme: 'light',
-      });
+      if (response?.message) {
+        toast.success(response.message, {
+          position: 'top-right', 
+          autoClose: 1000, 
+          theme: 'light', 
+        });
+    }setTimeout(() => {
       navigate('/ecommerce');
+    }, 1000);
     } catch (err) {
-      setError(err.response.data.message);
+      if (err.response?.message) {
+        toast.error(err.response.message, {
+          position: 'top-right', 
+          autoClose: 1000, 
+          theme: 'light', 
+        });
+    }
     }
   };
+
 
   return (
     <>

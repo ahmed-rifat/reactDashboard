@@ -4,6 +4,8 @@ import LogoDark from '../../images/logo/NextLevelIT.jpg';
 import Logo from '../../images/logo/NextLevelIT_dark.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import authService from '../Authentication/AuthService';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 import {
   faUser,
@@ -55,9 +57,23 @@ const SignUp = () => {
     if (isFormValid) {
       try {
         const response = await authService.register(registerData);
-        alert(response.message);
-        navigate('/auth/signin');
+        if (response?.message) {
+                toast.success(response.message, {
+                  position: 'top-right', 
+                  autoClose: 1000, 
+                  theme: 'light', 
+                });
+            }setTimeout(() => {
+              navigate('/auth/signin');
+            }, 1000);
       } catch (error) {
+        if (error.response.message) {
+          toast.error(error.response.message, {
+            position: 'top-right', 
+            autoClose: 1000, 
+            theme: 'light', 
+          });
+      }
       }
     }
   };
