@@ -50,7 +50,7 @@ class AuthService {
 
   getUser = async(userId) => {
     try {
-      const response = await this.api.get(`/user/${userId}`);
+      const {data} = await this.api.get(`/user/${userId}`);
       return response.data;
     } catch (error) {
       throw error;
@@ -58,6 +58,15 @@ class AuthService {
   };
 
   isAuthenticated = () => !!this.getToken();
+
+  createFaq = async (faqData) => {
+    try {
+      const {data} = await this.api.post('/faq/faq', faqData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   create = async (url, data) => {
     try {

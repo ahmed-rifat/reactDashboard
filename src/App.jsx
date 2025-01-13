@@ -8,7 +8,7 @@ import SignUp from './pages/Authentication/SignUp';
 import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
 import ECommerce from './pages/Dashboard/ECommerce';
-import FormElements from './pages/Form/FormElements';
+import Faq from './pages/Form/Faq';
 import FormLayout from './pages/Form/FormLayout';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
@@ -71,11 +71,11 @@ function App() {
           }
         />
         <Route
-          path="/forms/form-elements"
+          path="/forms/faq"
           element={
             <>
-              <PageTitle title="Form Elements | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <FormElements />
+              <PageTitle title="Faq Section" />
+              <Faq />
             </>
           }
         />
