@@ -67,6 +67,31 @@ class AuthService {
       throw error;
     }
   };
+  updateFaq = async (id) => {
+    try {
+      const {data} = await this.api.get(`/faq/faqUpdate/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+  deleteFaq = async (id) => {
+    try {
+      const {data} = await this.api.post(`/faq/faq/${id}`, { active_yn: 'N' });
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getFaq = async () => {
+    try {
+      const {data} = await this.api.get('/faq/faqs');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   create = async (url, data) => {
     try {
