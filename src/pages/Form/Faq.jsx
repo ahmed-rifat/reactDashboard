@@ -11,6 +11,7 @@ const Faq = () => {
       faq_title: '',
       faq_description: '',
       active_yn: '',
+      faq_id: ''
     }
   );
 
@@ -25,8 +26,8 @@ const Faq = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (faqData.id) {
-        const response = await authService.updateFaq(faqData.id, faqData);
+      if (faqData.faq_id) {
+        const response = await authService.updateFaq(faqData.faq_id, faqData);
         if (response?.message) {
           toast.success(response.message, {
             position: 'top-right',
@@ -70,8 +71,14 @@ const Faq = () => {
   };
 
 
-  const deleteFaq = async(id) => {
-    const response = await authService.deleteFaq(id);
+  const deleteFaq = async(faq_id) => {
+    const deleteFaqData = {
+      active_yn: 'N',
+      faq_title: faqData.faq_title,
+      faq_description: faqData.faq_description,
+
+    }
+    const response = await authService.deleteFaq(faq_id, deleteFaqData);
     if (response?.message) {
       toast.success(response.message, {
         position: 'top-right',
@@ -85,6 +92,7 @@ const Faq = () => {
         theme: 'light',
       });
     }
+    getFaqDetails();
   };
 
 

@@ -67,17 +67,17 @@ class AuthService {
       throw error;
     }
   };
-  updateFaq = async (id) => {
+  updateFaq = async (id, faqData) => {
     try {
-      const {data} = await this.api.put(`/faq/faq/${id}`);
+      const {data} = await this.api.put(`/faq/faq/${id}`, faqData);
       return data;
     } catch (error) {
       throw error;
     }
   }
-  deleteFaq = async (id) => {
+  deleteFaq = async (id, faqData) => {
     try {
-      const {data} = await this.api.post(`/faq/faq/${id}`, { active_yn: 'N' });
+      const {data} = await this.api.put(`/faq/faq/${id}`, faqData);
       return data;
     } catch (error) {
       throw error;
