@@ -14,7 +14,6 @@ const Faq = () => {
       faq_id: ''
     }
   );
-
   const [faqDetails, setFaqDetails] = useState([]);
 
   const handleInputChange = (e) => {
@@ -68,31 +67,6 @@ const Faq = () => {
     if (response.faq) {
       setFaqDetails(response.faq);
     }
-  };
-
-
-  const deleteFaq = async(faq_id) => {
-    const deleteFaqData = {
-      active_yn: 'N',
-      faq_title: faqData.faq_title,
-      faq_description: faqData.faq_description,
-
-    }
-    const response = await authService.deleteFaq(faq_id, deleteFaqData);
-    if (response?.message) {
-      toast.success(response.message, {
-        position: 'top-right',
-        autoClose: 1000,
-        theme: 'light',
-      });
-    }else{
-      toast.error(response?.message, {
-        position: 'top-right',
-        autoClose: 1000,
-        theme: 'light',
-      });
-    }
-    getFaqDetails();
   };
 
 
@@ -209,14 +183,6 @@ const Faq = () => {
                       handleEdit(faqItem.faq_id);
                     }}
                     href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </span>
-
-                    <span className='ml-3'>
-                    <a onClick={(e) => {
-                      e.preventDefault(); 
-                      deleteFaq(faqItem.faq_id);
-                    }}
-                    href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
                     </span>
                 </td>
             </tr>
