@@ -59,6 +59,8 @@ class AuthService {
 
   isAuthenticated = () => !!this.getToken();
 
+  //faq section
+
   createFaq = async (faqData) => {
     try {
       const {data} = await this.api.post('/faq/faq', faqData);
@@ -101,6 +103,44 @@ class AuthService {
       throw error;
     }
   }
+
+// service section
+
+  createService = async (serviceData) => {
+    try {
+      const {data} = await this.api.post('/service/type', serviceData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateService = async (id, serviceData) => {
+    try {
+      const {data} = await this.api.put(`/service/type/${id}`, serviceData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getServiceById = async (id) => {
+    try {
+      const {data} = await this.api.get(`/service/type/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getService = async () => {
+    try {
+      const {data} = await this.api.get('/service/types');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
 
   create = async (url, data) => {
     try {
