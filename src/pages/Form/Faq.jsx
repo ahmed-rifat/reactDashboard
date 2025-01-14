@@ -22,29 +22,44 @@ const Faq = () => {
     });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await authService.createFaq(faqData);
-    if (response?.message) {
-      toast.success(response.message, {
-        position: 'top-right',
-        autoClose: 1000,
-        theme: 'light',
-      });
-    }else{
-      toast.error(response?.message, {
+    try {
+      if (faqData.id) {
+        const response = await authService.updateFaq(faqData.id, faqData);
+        if (response?.message) {
+          toast.success(response.message, {
+            position: 'top-right',
+            autoClose: 1000,
+            theme: 'light',
+          });
+        }
+      } else {
+        const response = await authService.createFaq(faqData);
+        if (response?.message) {
+          toast.success(response.message, {
+            position: 'top-right',
+            autoClose: 1000,
+            theme: 'light',
+          });
+        }
+      }
+      getFaqDetails();
+      setFaqData({ faq_title: '', faq_description: '', active_yn: '' }); 
+  
+    } catch (error) {
+      toast.error('Failed to submit the FAQ.', {
         position: 'top-right',
         autoClose: 1000,
         theme: 'light',
       });
     }
-    getFaqDetails();
   };
+  
 
   const handleEdit = async(id) => {
-    console.log(id);
-    const response =  await authService.updateFaq(id);
-    setFaqData(response.faq);
+    const updateData = await authService.getFaqById(id);
+    setFaqData(updateData.faq);    
   };
 
   const getFaqDetails = async() => { 

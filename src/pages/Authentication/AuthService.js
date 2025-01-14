@@ -69,7 +69,7 @@ class AuthService {
   };
   updateFaq = async (id) => {
     try {
-      const {data} = await this.api.get(`/faq/faqUpdate/${id}`);
+      const {data} = await this.api.put(`/faq/faq/${id}`);
       return data;
     } catch (error) {
       throw error;
@@ -87,6 +87,15 @@ class AuthService {
   getFaq = async () => {
     try {
       const {data} = await this.api.get('/faq/faqs');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getFaqById = async (id) => {
+    try {
+      const {data} = await this.api.get(`/faq/faq/${id}`);
       return data;
     } catch (error) {
       throw error;
