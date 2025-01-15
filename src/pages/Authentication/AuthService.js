@@ -108,7 +108,7 @@ class AuthService {
 
   createService = async (serviceData) => {
     try {
-      const {data} = await this.api.post('/service/type', serviceData);
+      const {data} = await this.api.post('/service/postService', serviceData);
       return data;
     } catch (error) {
       throw error;
@@ -117,7 +117,7 @@ class AuthService {
 
   updateService = async (id, serviceData) => {
     try {
-      const {data} = await this.api.put(`/service/type/${id}`, serviceData);
+      const {data} = await this.api.put(`/service/updateService/${id}`, serviceData);
       return data;
     } catch (error) {
       throw error;
@@ -126,6 +126,44 @@ class AuthService {
 
   getServiceById = async (id) => {
     try {
+      const {data} = await this.api.get(`/service/services/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getAllService = async () => {
+    try {
+      const {data} = await this.api.get('/service/services');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  // service Type section
+
+  createServiceType = async (serviceData) => {
+    try {
+      const {data} = await this.api.post('/service/type', serviceData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateServiceType = async (id, serviceData) => {
+    try {
+      const {data} = await this.api.put(`/service/type/${id}`, serviceData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getServiceTypeById = async (id) => {
+    try {
       const {data} = await this.api.get(`/service/type/${id}`);
       return data;
     } catch (error) {
@@ -133,7 +171,7 @@ class AuthService {
     }
   };
 
-  getService = async () => {
+  getAllServiceType = async () => {
     try {
       const {data} = await this.api.get('/service/types');
       return data;

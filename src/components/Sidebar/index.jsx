@@ -358,12 +358,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               </SidebarLinkGroup>
               {/* <!-- Menu Item Forms --> */}
 
-              {/* <!-- Menu Item Tables --> */}
+              {/* <!-- Menu Item Service --> */}
               <li>
                 <NavLink
-                  to="/tables"
+                  to="/Service"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('tables') && 'bg-graydark dark:bg-meta-4'
+                    pathname.includes('Service') && 'bg-graydark dark:bg-meta-4'
                   }`}
                 >
                   <svg
@@ -391,7 +391,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Tables
+                  Service
                 </NavLink>
               </li>
               {/* <!-- Menu Item Tables --> */}

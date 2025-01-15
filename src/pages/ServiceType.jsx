@@ -26,7 +26,7 @@ const ServiceType = () => {
     e.preventDefault();
     try {
       if (serviceTypeData.service_type_id) {
-        const response = await authService.updateService(serviceTypeData.service_type_id, serviceTypeData);
+        const response = await authService.updateServiceType(serviceTypeData.service_type_id, serviceTypeData);
         if (response?.message) {
           toast.success(response.message, {
             position: 'top-right',
@@ -35,7 +35,7 @@ const ServiceType = () => {
           });
         }
       } else {
-        const response = await authService.createService(serviceTypeData);
+        const response = await authService.createServiceType(serviceTypeData);
         if (response?.message) {
           toast.success(response.message, {
             position: 'top-right',
@@ -58,12 +58,12 @@ const ServiceType = () => {
   
 
   const handleEdit = async(id) => {
-    const updateData = await authService.getServiceById(id);
+    const updateData = await authService.getServiceTypeById(id);
     setServiceTypeData(updateData.serviceType);    
   };
 
   const getserviceDetails = async() => { 
-    const response = await authService.getService();
+    const response = await authService.getAllServiceType();
     if (response.serviceTypes) {
       setServiceDetails(response.serviceTypes);
     }

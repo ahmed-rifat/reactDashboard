@@ -12,7 +12,7 @@ import Faq from './pages/Form/Faq';
 import FormLayout from './pages/Form/FormLayout';
 import ServiceType from './pages/ServiceType';
 import Settings from './pages/Settings';
-import Tables from './pages/ServiceType';
+import Service from './pages/Service';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 // import DefaultLayout from './layout/DefaultLayout';
@@ -65,7 +65,7 @@ function App() {
           path="/ServiceType"
           element={
             <>
-              <PageTitle title="ServiceType | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <PageTitle title="ServiceType" />
               <ServiceType />
             </>
           }
@@ -89,11 +89,11 @@ function App() {
           }
         />
         <Route
-          path="/tables"
+          path="/Service"
           element={
             <>
-              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Tables />
+              <PageTitle title="Service" />
+              <Service />
             </>
           }
         />
