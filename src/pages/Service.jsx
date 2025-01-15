@@ -17,19 +17,20 @@ const Service = () => {
     active_yn: '',
   });
   const [serviceDetails, setServiceDetails] = useState([]);
+  const [serviceTypeOptions, setServiceTypeOptions] = useState([]);
+  console.log(serviceTypeOptions);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-      setServiceData({ ...serviceData, [name]: value });
-    
+    setServiceData({ ...serviceData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (serviceData.service_types_id) {
+      if (serviceData.service_id) {
         const response = await authService.updateService(
-          serviceData.service_types_id,
+          serviceData.service_id,
           serviceData,
         );
         if (response?.message) {
@@ -80,8 +81,16 @@ const Service = () => {
     }
   };
 
+  const getAllServiceType = async () => {
+    const response = await authService.getAllServiceType();
+    if (response.serviceTypes) {
+      setServiceTypeOptions(response.serviceTypes);
+    }
+  };
+
   useEffect(() => {
     getserviceDetails();
+    getAllServiceType();
   }, []);
 
   return (
@@ -176,6 +185,28 @@ const Service = () => {
                 placeholder="Enter attachment"
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
               />
+            </div>
+
+            <div>
+              <label className="mb-3 block text-lg text-black dark:text-white">
+                Service Type
+              </label>
+              <select
+                name="service_types_id" 
+                value={serviceData.service_types_id}
+                onChange={handleInputChange} 
+                className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
+              >
+                <option value="">Select a service type</option>
+                {serviceTypeOptions.map((option) => (
+                  <option
+                    key={option.service_type_id}
+                    value={option.service_type_id}
+                  >
+                    {option.service_type_name} 
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
@@ -276,7 +307,7 @@ const Service = () => {
                     {serviceItem.service_description}
                   </td>
                   <td className="px-6 py-4">
-                    {serviceItem.service_attachment}
+                    {serviceItem.file_name}
                   </td>
 
                   <td className="px-6 py-4">
@@ -288,7 +319,7 @@ const Service = () => {
                       <a
                         onClick={(e) => {
                           e.preventDefault();
-                          handleEdit(serviceItem.service_types_id);
+                          handleEdit(serviceItem.service_id);
                         }}
                         href="#"
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
