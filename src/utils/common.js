@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-var CryptoJs = require('crypto-js');
+import CryptoJs from 'crypto-js';
 
 //Function to encrypt dat using AES encryption
 export const encrypt = (key, data) => {

@@ -7,13 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import loginImg from '../../images/logo/loginImg.png';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-
+import { setCookie } from '../../utils/common.js'; 
 
 import {
   faEyeSlash,
   faEye,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
+import { useUser } from '../../contexts/UserContext';
 
 const SignIn = () => {
   const [loginData, setloginData] = useState({
@@ -21,6 +22,8 @@ const SignIn = () => {
     password: '',
   });
   const [error, setError] = useState(null);
+  // const { userInfo, setUserInfo } = useUser();
+  // const { setUserInfo } = useUser();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
@@ -39,24 +42,26 @@ const SignIn = () => {
       const response = await authService.login(loginData);
       if (response?.message) {
         toast.success(response.message, {
-          position: 'top-right', 
-          autoClose: 1000, 
-          theme: 'light', 
+          position: 'top-right',
+          autoClose: 1000,
+          theme: 'light',
         });
-    }setTimeout(() => {
-      navigate('/dashboard');
-    }, 1000);
+      }
+      setTimeout(() => {
+        setCookie('_USER_AUTH_', JSON.stringify(response));
+        // setUserInfo(response.user);
+        navigate('/dashboard');
+      }, 1000);
     } catch (err) {
       if (err.response?.message) {
         toast.error(err.response.message, {
-          position: 'top-right', 
-          autoClose: 1000, 
-          theme: 'light', 
+          position: 'top-right',
+          autoClose: 1000,
+          theme: 'light',
         });
-    }
+      }
     }
   };
-
 
   return (
     <>
@@ -75,7 +80,7 @@ const SignIn = () => {
               </p>
 
               <span className="mt-15 inline-block ms-55">
-                <img src={loginImg} alt="login" className='h-1/2 w-2/4' />
+                <img src={loginImg} alt="login" className="h-1/2 w-2/4" />
               </span>
             </div>
           </div>
