@@ -44,7 +44,7 @@ const SignIn = () => {
           theme: 'light', 
         });
     }setTimeout(() => {
-      navigate('/ecommerce');
+      navigate('/dashboard');
     }, 1000);
     } catch (err) {
       if (err.response?.message) {
