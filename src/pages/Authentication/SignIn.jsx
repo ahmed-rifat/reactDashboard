@@ -7,14 +7,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import loginImg from '../../images/logo/loginImg.png';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import { setCookie } from '../../utils/common.js'; 
+import { setCookie } from '../../utils/common.js';
+import { useUser } from '../../contexts/UserContext';
 
 import {
   faEyeSlash,
   faEye,
   faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
-import { useUser } from '../../contexts/UserContext';
 
 const SignIn = () => {
   const [loginData, setloginData] = useState({
@@ -22,8 +22,7 @@ const SignIn = () => {
     password: '',
   });
   const [error, setError] = useState(null);
-  // const { userInfo, setUserInfo } = useUser();
-  // const { setUserInfo } = useUser();
+  const { userInfo, setUserInfo } = useUser();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
@@ -48,8 +47,8 @@ const SignIn = () => {
         });
       }
       setTimeout(() => {
-        setCookie('_USER_AUTH_', JSON.stringify(response));
-        // setUserInfo(response.user);
+        setCookie('_USER_AUTH_', JSON.stringify(response.token));
+        setUserInfo(response.user);
         navigate('/dashboard');
       }, 1000);
     } catch (err) {

@@ -33,6 +33,8 @@ export const deleteCookie = (key) => {
 //Function to get the authentiated user detail
 export const getAuthToken = () => {
   const user = getCookie('_USER_AUTH_');
+  console.log(55555, user);
+  
   try {
     return user ? JSON.parse(user) : null;
   } catch (err) {
