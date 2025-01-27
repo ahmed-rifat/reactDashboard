@@ -5,16 +5,15 @@ import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
-import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
 import ECommerce from './pages/Dashboard/ECommerce';
 import Faq from './pages/Form/Faq';
-import FormLayout from './pages/Form/FormLayout';
 import ServiceType from './pages/ServiceType';
 import Settings from './pages/Settings';
 import Service from './pages/Service';
 import Alerts from './pages/UiElements/Alerts';
-import Buttons from './pages/UiElements/Buttons';
+import Role from './pages/Role';
+import Menu from './pages/Menu';
 // import DefaultLayout from './layout/DefaultLayout';
 
 function App() {
@@ -70,6 +69,25 @@ function App() {
           </>
         }
       />
+      <Route
+        path="/Role"
+        element={
+          <>
+            <PageTitle title="UserRole" />
+            <Role />
+          </>
+        }
+      />
+      <Route 
+        path="/Menu"
+        element={
+          <>
+            <PageTitle title="Menu" />
+            <Menu />
+          </>
+        }
+      />
+
       <Route
         path="/forms/faq"
         element={
