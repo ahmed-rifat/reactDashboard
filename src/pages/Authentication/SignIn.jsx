@@ -46,12 +46,6 @@ const SignIn = () => {
           theme: 'light',
         });
       }
-      // setTimeout(() => {
-      //   // setCookie('_USER_AUTH_', JSON.stringify(response.token));
-      //   setCookie('_USER_AUTH_',JSON.stringify({ token: response.token, user: response.user }));
-      //   setUserInfo(response.user);
-      //   navigate('/dashboard');
-      // }, 1000);
       setTimeout(() => {
         const { token, user } = response;
         setCookie('_USER_AUTH_', token, user);
