@@ -180,6 +180,83 @@ class AuthService {
     }
   };
 
+  // Role secion
+
+  createRole = async (roleData) => {
+    try {
+      const {data} = await this.api.post('/role/insertRole', roleData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  updateRole = async (id, roleData) => {
+    try {
+      const {data} = await this.api.put(`/role/roles/${id}`, roleData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getRoleById = async (id) => {
+    try {
+      const {data} = await this.api.get(`/role/roles/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getAllRole = async () => {
+    try {
+      const {data} = await this.api.get('/role/roles');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Menu section
+
+  createMenu = async (menuData) => {
+    try {
+      const {data} = await this.api.post('/menu/insertMenu', menuData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  updateMenu = async (id, menuData) => {
+    try {
+      const {data} = await this.api.put(`/menu/updateMenu/${id}`, menuData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getMenuById = async (id) => {
+    try {
+      const {data} = await this.api.get(`/menu/menus/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getAllMenu = async () => {
+    try {
+      const {data} = await this.api.get('/menu/menus');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
   create = async (url, data) => {
     try {
       const response = await this.api.post(url, data);

@@ -58,9 +58,9 @@ const SignIn = () => {
         setUserInfo(user);
         navigate('/dashboard');
       }, 1000);
-    } catch (err) {
-      if (err.response?.message) {
-        toast.error(err.response.message, {
+    } catch {
+      if (response?.message) {
+        toast.error(response.message, {
           position: 'top-right',
           autoClose: 1000,
           theme: 'light',
