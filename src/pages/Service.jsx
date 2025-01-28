@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import authService from './Authentication/AuthService';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { useUser } from '../contexts/UserContext';
 
 const Service = () => {
   const [serviceData, setServiceData] = useState({
@@ -18,7 +19,7 @@ const Service = () => {
   });
   const [serviceDetails, setServiceDetails] = useState([]);
   const [serviceTypeOptions, setServiceTypeOptions] = useState([]);
-  console.log(serviceTypeOptions);
+  const {userInfo} = useUser();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -93,6 +94,7 @@ const Service = () => {
     getAllServiceType();
   }, []);
 
+   const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
   return (
     <DefaultLayout>
       <>
@@ -192,9 +194,9 @@ const Service = () => {
                 Service Type
               </label>
               <select
-                name="service_types_id" 
+                name="service_types_id"
                 value={serviceData.service_types_id}
-                onChange={handleInputChange} 
+                onChange={handleInputChange}
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
               >
                 <option value="">Select a service type</option>
@@ -203,7 +205,7 @@ const Service = () => {
                     key={option.service_type_id}
                     value={option.service_type_id}
                   >
-                    {option.service_type_name} 
+                    {option.service_type_name}
                   </option>
                 ))}
               </select>
@@ -306,9 +308,7 @@ const Service = () => {
                   <td className="px-6 py-4">
                     {serviceItem.service_description}
                   </td>
-                  <td className="px-6 py-4">
-                    {serviceItem.file_name}
-                  </td>
+                  <td className="px-6 py-4">{serviceItem.file_name}</td>
 
                   <td className="px-6 py-4">
                     {serviceItem.active_yn === 'Y' ? 'Active' : 'InActive'}

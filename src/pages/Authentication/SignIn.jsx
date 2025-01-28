@@ -22,7 +22,7 @@ const SignIn = () => {
     password: '',
   });
   const [error, setError] = useState(null);
-  const { userInfo, setUserInfo } = useUser();
+  const { userInfo, setUserInfo } = useUser({});
   const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
@@ -46,9 +46,16 @@ const SignIn = () => {
           theme: 'light',
         });
       }
+      // setTimeout(() => {
+      //   // setCookie('_USER_AUTH_', JSON.stringify(response.token));
+      //   setCookie('_USER_AUTH_',JSON.stringify({ token: response.token, user: response.user }));
+      //   setUserInfo(response.user);
+      //   navigate('/dashboard');
+      // }, 1000);
       setTimeout(() => {
-        setCookie('_USER_AUTH_', JSON.stringify(response.token));
-        setUserInfo(response.user);
+        const { token, user } = response;
+        setCookie('_USER_AUTH_', token, user);
+        setUserInfo(user);
         navigate('/dashboard');
       }, 1000);
     } catch (err) {

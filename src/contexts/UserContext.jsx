@@ -6,12 +6,15 @@ const UserContext = createContext();
 
 //provider component to wrap around the part of the app that need access to user context
 export const UserProvider = ({ children }) => {
-  //Initialize the userInfo state with the authenticated user auth
-  const [userInfo, setUserInfo] = useState(getAuthToken());
+  // Initialize the userInfo state with the authenticated user auth
+  const [userInfo, setUserInfo] = useState(getAuthToken);
+
+  // Convert userInfo to a string using JSON.stringify before providing it
+  const userInfoString = userInfo ? JSON.stringify(userInfo) : null;
 
   return (
-    // Provide the userInfo and setUserInfo to the context consumers
-    <UserContext.Provider value={{ userInfo, setUserInfo }}>
+    // Provide the userInfo (as a string) and setUserInfo to the context consumers
+    <UserContext.Provider value={{ userInfo: userInfoString, setUserInfo }}>
       {children}
     </UserContext.Provider>
   );
