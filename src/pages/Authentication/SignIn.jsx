@@ -48,7 +48,8 @@ const SignIn = () => {
       }
       setTimeout(() => {
         const { token, user } = response;
-        setCookie('_USER_AUTH_', token, user);
+       // setCookie('_USER_AUTH_', token, user);
+        localStorage.setItem('_USER_AUTH_', JSON.stringify({ token, user }));
         setUserInfo(user);
         navigate('/dashboard');
       }, 1000);

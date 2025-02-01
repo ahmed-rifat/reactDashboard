@@ -14,7 +14,7 @@ import Service from './pages/Service';
 import Alerts from './pages/UiElements/Alerts';
 import Role from './pages/Role';
 import Menu from './pages/Menu';
-// import DefaultLayout from './layout/DefaultLayout';
+import PrivateRoute from './utils/PrivateRoute';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -43,14 +43,14 @@ function App() {
         }
       />
       <Route
-          path="/dashboard"
-          element={
-            <>
-              <PageTitle title="Dashboard" />
-              <ECommerce />
-            </>
-          }
-        />
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <PageTitle title="Dashboard" />
+            <ECommerce />
+          </PrivateRoute>
+        }
+      />
       {/* <Route
           path="/calendar"
           element={
@@ -63,38 +63,38 @@ function App() {
       <Route
         path="/ServiceType"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="ServiceType" />
             <ServiceType />
-          </>
+          </PrivateRoute>
         }
       />
       <Route
         path="/Role"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="UserRole" />
             <Role />
-          </>
+          </PrivateRoute>
         }
       />
-      <Route 
+      <Route
         path="/Menu"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="Menu" />
             <Menu />
-          </>
+          </PrivateRoute>
         }
       />
 
       <Route
         path="/forms/faq"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="Faq Section" />
             <Faq />
-          </>
+          </PrivateRoute>
         }
       />
       {/* <Route
@@ -109,37 +109,46 @@ function App() {
       <Route
         path="/Service"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="Service" />
             <Service />
-          </>
+          </PrivateRoute>
         }
       />
       <Route
         path="/settings"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="Settings" />
             <Settings />
-          </>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <PageTitle title="Settings" />
+            <Settings />
+          </PrivateRoute>
         }
       />
       <Route
         path="/chart"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="Basic Chart" />
             <Chart />
-          </>
+          </PrivateRoute>
         }
       />
       <Route
         path="/ui/alerts"
         element={
-          <>
+          <PrivateRoute>
             <PageTitle title="Alerts" />
             <Alerts />
-          </>
+          </PrivateRoute>
         }
       />
       {/* <Route

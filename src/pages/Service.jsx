@@ -94,7 +94,6 @@ const Service = () => {
     getAllServiceType();
   }, []);
 
-   const parsedUserInfo = userInfo ? JSON.parse(userInfo) : null;
   return (
     <DefaultLayout>
       <>

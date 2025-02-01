@@ -1,20 +1,41 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getAuthToken } from '../utils/common';
 
-//create a new context for user information
 const UserContext = createContext();
 
-//provider component to wrap around the part of the app that need access to user context
 export const UserProvider = ({ children }) => {
-  // Initialize the userInfo state with the authenticated user auth
-  const [userInfo, setUserInfo] = useState(getAuthToken);
 
-  // Convert userInfo to a string using JSON.stringify before providing it
-  const userInfoString = userInfo ? JSON.stringify(userInfo) : null;
+  // Load user data from localStorage or fallback to getAuthToken
+  const [userInfo, setUserInfo] = useState(() => {
+    const storedUser = localStorage.getItem('_USER_AUTH_');
+    return storedUser ? JSON.parse(storedUser).user : getAuthToken();
+  });
+
+  // Keep localStorage in sync when userInfo changes
+  useEffect(() => {
+    if (userInfo) {
+      localStorage.setItem('_USER_AUTH_', JSON.stringify({ user: userInfo }));
+    } else {
+      localStorage.removeItem('_USER_AUTH_');
+    }
+  }, [userInfo]);
+
+  // Login function
+  const login = (userData) => {
+    setUserInfo(userData);
+    localStorage.setItem('_USER_AUTH_', JSON.stringify({ user: userData }));
+    navigate('/dashboard');
+  };
+
+  // Logout function
+  const logout = () => {
+    setUserInfo(null);
+    localStorage.removeItem('_USER_AUTH_');
+    navigate('/');
+  };
 
   return (
-    // Provide the userInfo (as a string) and setUserInfo to the context consumers
-    <UserContext.Provider value={{ userInfo: userInfoString, setUserInfo }}>
+    <UserContext.Provider value={{ userInfo, setUserInfo, login, logout }}>
       {children}
     </UserContext.Provider>
   );
