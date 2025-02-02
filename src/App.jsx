@@ -15,6 +15,7 @@ import Alerts from './pages/UiElements/Alerts';
 import Role from './pages/Role';
 import Menu from './pages/Menu';
 import PrivateRoute from './utils/PrivateRoute';
+import Blog from './pages/Blog';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -112,6 +113,15 @@ function App() {
           <PrivateRoute>
             <PageTitle title="Service" />
             <Service />
+          </PrivateRoute>
+        }
+      />
+      <Route 
+        path="/Blog"
+        element={
+          <PrivateRoute>
+            <PageTitle title="Blog" />
+            <Blog />
           </PrivateRoute>
         }
       />

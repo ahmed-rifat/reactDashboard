@@ -255,7 +255,45 @@ class AuthService {
       throw error;
     }
   }
+  // blog section
 
+  createBlog = async (blogData) => {
+    try {
+      const {data} = await this.api.post('/blogs/blog', blogData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  updateBlog = async (id, blogData) => {
+    try {
+      const {data} = await this.api.put(`/blogs/blog/${id}`, blogData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getBlogById = async (id) => {
+    try {
+      const {data} = await this.api.get(`/blogs/blog/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getAllBlog = async () => {
+    try {
+      const {data} = await this.api.get('/blogs/blogs');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // contact section
 
   create = async (url, data) => {
     try {
