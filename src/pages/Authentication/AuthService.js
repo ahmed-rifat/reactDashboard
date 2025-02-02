@@ -284,7 +284,7 @@ class AuthService {
     }
   }
 
-  getAllBlog = async () => {
+  getAllBlogs = async () => {
     try {
       const {data} = await this.api.get('/blogs/blogs');
       return data;

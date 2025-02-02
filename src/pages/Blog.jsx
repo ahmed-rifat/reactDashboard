@@ -8,7 +8,7 @@ import { useUser } from '../contexts/UserContext';
 
 const Blog = () => {
   const [blogData, setBlogData] = useState({
-    blog_id: '',
+    id: '',
     blog_title: '',
     blog_sub_title: '',
     blog_description: '',
@@ -27,9 +27,9 @@ const Blog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (blogData.blog_id) {
+      if (blogData.id) {
         const response = await authService.updateBlog(
-          blogData.blog_id,
+          blogData.id,
           blogData,
         );
         if (response?.message) {
@@ -74,9 +74,9 @@ const Blog = () => {
   };
 
   const getBlogDetails = async () => {
-    const response = await authService.getAllBlog();
-    if (response.blog) {
-      setBlogDetails(response.blog);
+    const response = await authService.getAllBlogs();
+    if (response.blogs) {
+      setBlogDetails(response.blogs);
     }
   };
 
@@ -122,20 +122,6 @@ const Blog = () => {
 
             <div>
               <label className="mb-3 block text-lg text-black dark:text-white">
-                Blog Description
-              </label>
-              <input
-                type="text"
-                name="blog_description"
-                value={blogData.blog_description}
-                onChange={handleInputChange}
-                placeholder="Enter Blog Description"
-                className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
-              />
-            </div>
-
-            <div>
-              <label className="mb-3 block text-lg text-black dark:text-white">
                 Blog Img
               </label>
               <input
@@ -155,10 +141,10 @@ const Blog = () => {
               <label className="mb-3 block text-lg text-black dark:text-white">
                 Blog Description
               </label>
-              <input
+              <textarea
                 type="text"
-                name="author_img"
-                value={blogData.author_img}
+                name="blog_description"
+                value={blogData.blog_description}
                 onChange={handleInputChange}
                 placeholder="Enter Blog Description"
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
@@ -277,7 +263,7 @@ const Blog = () => {
             <tbody>
               {blogDetails.map((blogItem, key) => (
                 <tr
-                  key={blogItem.blog_id}
+                  key={blogItem.id}
                   className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                 >
                   <th
@@ -288,11 +274,11 @@ const Blog = () => {
                   </th>
                   <td className="px-6 py-4">{blogItem.blog_sub_title}</td>
                   <td className="px-6 py-4">{blogItem.blog_description}</td>
-                  <td className="px-6 py-4">{blogItem.author_name}</td>
+                  <td className="px-6 py-4">{blogItem.blog_img}</td>
                   <td className="px-6 py-4">
-                    {blogItem.author_img}
+                    {blogItem.author_name}
                   </td>
-                  <td className="px-6 py-4">{blogItem.file_name}</td>
+                  <td className="px-6 py-4">{blogItem.author_img}</td>
 
                   <td className="px-6 py-4">
                     {blogItem.active_yn === 'Y' ? 'Active' : 'InActive'}
@@ -303,7 +289,7 @@ const Blog = () => {
                       <a
                         onClick={(e) => {
                           e.preventDefault();
-                          handleEdit(blogItem.blog_id);
+                          handleEdit(blogItem.id);
                         }}
                         href="#"
                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"

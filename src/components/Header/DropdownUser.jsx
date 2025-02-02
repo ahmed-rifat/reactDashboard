@@ -10,6 +10,7 @@ const DropdownUser = () => {
   const logOut = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('_USER_AUTH_');
     window.location.href = '/';
   }
 
