@@ -24,6 +24,24 @@ const Blog = () => {
     setBlogData({ ...blogData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        setBlogData((prev) => ({
+          ...prev,
+          [name]: reader.result, // Base64 encoded image
+        }));
+      };
+  
+      reader.readAsDataURL(file); // Convert image to Base64
+    }
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -127,8 +145,7 @@ const Blog = () => {
               <input
                 type="file"
                 name="blog_img"
-                value={blogData.blog_img}
-                onChange={handleInputChange}
+                onChange={handleFileChange}
                 placeholder="Enter Blog Img"
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
               />
@@ -172,8 +189,7 @@ const Blog = () => {
               <input
                 type="file"
                 name="author_img"
-                value={blogData.author_img}
-                onChange={handleInputChange}
+                onChange={handleFileChange}
                 placeholder="Enter Author Img"
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5
                  text-black outline-none transition focus:border-primary active:border-primary
