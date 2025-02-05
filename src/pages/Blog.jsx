@@ -42,49 +42,106 @@ const Blog = () => {
   };
   
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     if (blogData.id) {
+  //       const response = await authService.updateBlog(
+  //         blogData.id,
+  //         blogData,
+  //       );
+  //       if (response?.message) {
+  //         toast.success(response.message, {
+  //           position: 'top-right',
+  //           autoClose: 1000,
+  //           theme: 'light',
+  //         });
+  //       }
+  //     } else {
+  //       const response = await authService.createBlog(blogData);
+  //       if (response?.message) {
+  //         toast.success(response.message, {
+  //           position: 'top-right',
+  //           autoClose: 1000,
+  //           theme: 'light',
+  //         });
+  //       }
+  //     }
+  //     getBlogDetails();
+  //     setBlogData({
+  //       blog_title: '',
+  //       blog_sub_title: '',
+  //       blog_description: '',
+  //       author_name: '',
+  //       author_img: '',
+  //       blog_img: '',
+  //       active_yn: '',
+  //     });
+  //   } catch (error) {
+  //     toast.error('Failed to submit the Service.', {
+  //       position: 'top-right',
+  //       autoClose: 1000,
+  //       theme: 'light',
+  //     });
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (blogData.id) {
-        const response = await authService.updateBlog(
-          blogData.id,
-          blogData,
-        );
-        if (response?.message) {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append("blog_title", blogData.blog_title);
+  formData.append("blog_sub_title", blogData.blog_sub_title);
+  formData.append("blog_description", blogData.blog_description);
+  formData.append("author_name", blogData.author_name);
+  formData.append("active_yn", blogData.active_yn);
+
+  if (blogData.blog_img) {
+    formData.append("blog_img", dataURItoBlob(blogData.blog_img), "blog_image.jpg");
+  }
+  if (blogData.author_img) {
+    formData.append("author_img", dataURItoBlob(blogData.author_img), "author_image.jpg");
+  }
+
+  try {
+    const response = await authService.createBlog(formData);
+    console.log(32323, response);
+      // 'https://api.nextlevelitsolution.com/api/auth/blogs/blog',
+      // {
+      //   method: 'POST',
+      //   body: formData,
+      //   // headers: {
+      //   //   Authorization: `Bearer ${YOUR_AUTH_TOKEN}`, // If authentication is required
+      //   // },
+      // },
+    // );
+
+    if (response?.message) {
           toast.success(response.message, {
             position: 'top-right',
             autoClose: 1000,
             theme: 'light',
           });
         }
-      } else {
-        const response = await authService.createBlog(blogData);
-        if (response?.message) {
-          toast.success(response.message, {
-            position: 'top-right',
-            autoClose: 1000,
-            theme: 'light',
-          });
-        }
-      }
-      getBlogDetails();
-      setBlogData({
-        blog_title: '',
-        blog_sub_title: '',
-        blog_description: '',
-        author_name: '',
-        author_img: '',
-        blog_img: '',
-        active_yn: '',
-      });
-    } catch (error) {
-      toast.error('Failed to submit the Service.', {
-        position: 'top-right',
-        autoClose: 1000,
-        theme: 'light',
-      });
-    }
-  };
+    //  const json = JSON.parse(text);
+    // console.log(111, json);
+  } catch (error) {
+    console.error("Error uploading blog:", error);
+  }
+};
+
+// Helper function to convert Base64 to Blob
+function dataURItoBlob(dataURI) {
+  let byteString = atob(dataURI.split(',')[1]);
+  let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  let ab = new ArrayBuffer(byteString.length);
+  let ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: mimeString });
+}
+
 
   const handleEdit = async (id) => {
     const updateData = await authService.getBlogById(id);
