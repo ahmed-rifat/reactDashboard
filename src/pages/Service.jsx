@@ -26,6 +26,23 @@ const Service = () => {
     setServiceData({ ...serviceData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        setServiceData((prev) => ({
+          ...prev,
+          [name]: reader.result,
+        }));
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -178,11 +195,13 @@ const Service = () => {
               <label className="mb-3 block text-lg text-black dark:text-white">
                 Attachment
               </label>
+              { serviceData.service_attachment && 
+              <img src={serviceData.service_attachment} alt="Attachment"  className='w-50 h-50 border-1 rounded-lg'/> 
+              }
               <input
                 type="file"
                 name="service_attachment"
-                value={serviceData.service_attachment}
-                onChange={handleInputChange}
+                onChange={handleFileChange}
                 placeholder="Enter attachment"
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
               />
@@ -307,7 +326,7 @@ const Service = () => {
                   <td className="px-6 py-4">
                     {serviceItem.service_description}
                   </td>
-                  <td className="px-6 py-4">{serviceItem.file_name}</td>
+                  <td className="px-6 py-4">{serviceItem.file_name? 'Available' : 'Not Available'}</td>
 
                   <td className="px-6 py-4">
                     {serviceItem.active_yn === 'Y' ? 'Active' : 'InActive'}

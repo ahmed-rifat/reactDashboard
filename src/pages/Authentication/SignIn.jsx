@@ -48,19 +48,16 @@ const SignIn = () => {
       }
       setTimeout(() => {
         const { token, user } = response;
-       // setCookie('_USER_AUTH_', token, user);
         localStorage.setItem('_USER_AUTH_', JSON.stringify({ token, user }));
         setUserInfo(user);
         navigate('/dashboard');
       }, 1000);
-    } catch {
-      if (response?.message) {
-        toast.error(response.message, {
-          position: 'top-right',
-          autoClose: 1000,
-          theme: 'light',
-        });
-      }
+    } catch (error) {
+      toast.error(error.response?.data?.message, {
+        position: 'top-right',
+        autoClose: 2000,
+        theme: 'light',
+      });
     }
   };
 
