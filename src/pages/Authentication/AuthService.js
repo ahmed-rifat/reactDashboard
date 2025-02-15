@@ -292,6 +292,16 @@ class AuthService {
       throw error;
     }
   }
+  //user wise Role
+
+  getMenuItems = async () => {
+    try {
+      const {data} = await this.api.get('/menu/active-menus');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // contact section
 

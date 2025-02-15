@@ -12,10 +12,11 @@ import ServiceType from './pages/ServiceType';
 import Settings from './pages/Settings';
 import Service from './pages/Service';
 import Alerts from './pages/UiElements/Alerts';
-import Role from './pages/Role';
-import Menu from './pages/Menu';
+import Role from './pages/Admin/Role';
+import Menu from './pages/Admin/Menu';
 import PrivateRoute from './utils/PrivateRoute';
 import Blog from './pages/Blog';
+import UserRole from './pages/Admin/UserRole';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -71,7 +72,7 @@ function App() {
         }
       />
       <Route
-        path="/Role"
+        path="admin/role"
         element={
           <PrivateRoute>
             <PageTitle title="UserRole" />
@@ -80,7 +81,7 @@ function App() {
         }
       />
       <Route
-        path="/Menu"
+        path="admin/menu"
         element={
           <PrivateRoute>
             <PageTitle title="Menu" />
@@ -88,9 +89,18 @@ function App() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="admin/user-role"
+        element={
+          <PrivateRoute>
+            <PageTitle title="User Role" />
+            <UserRole />
+          </PrivateRoute>
+        }
+      />
 
       <Route
-        path="/forms/faq"
+        path="/faq"
         element={
           <PrivateRoute>
             <PageTitle title="Faq Section" />
