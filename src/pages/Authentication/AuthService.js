@@ -294,7 +294,62 @@ class AuthService {
   }
   //user wise Role
 
+  getAllUser = async () => {
+    try {
+      const {data} = await this.api.get('/users');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   getMenuItems = async () => {
+    try {
+      const {data} = await this.api.get('/menu/active-menus');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // sub menu section
+ createSubMenu = async (subMenuData) => {
+    try {
+      const {data} = await this.api.post('/submenu/submenu', subMenuData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  updateSubMenu = async (id, subMenuData) => {
+    try {
+      const {data} = await this.api.put(`/submenu/submenu/${id}`, subMenuData);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getSubMenuById = async (id) => {
+    try {
+      const {data} = await this.api.get(`/submenu/submenu/${id}`);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getAllSubMenu = async () => {
+    try {
+      const {data} = await this.api.get('/submenu/submenus');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  getAllActiveMenu = async () => {
     try {
       const {data} = await this.api.get('/menu/active-menus');
       return data;

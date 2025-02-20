@@ -6,29 +6,31 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
 
-const Menu = () => {
-    const [MenuData, setMenuData] = useState({
-      menu_name: '',
+const SubMenu = () => {
+    const [SubMenuData, setSubMenuData] = useState({
+      menu_id: '',
+      sub_menu_name: '',
       base_url: '',
       menu_order_no: '',
       menu_icon: '',
       active_yn: '',
     });
   
+  const [SubMenuDetails, setSubMenuDetails] = useState([]);
   const [MenuDetails, setMenuDetails] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setMenuData({ ...MenuData, [name]: value
+    setSubMenuData({ ...SubMenuData, [name]: value
     });
   };
 
   const handleSubmit = async (e) => {
-    console.log('payload' ,MenuData);
+    console.log('payload' ,SubMenuData);
     e.preventDefault();
     try {
-      if (MenuData.menu_id) {
-        const response = await authService.updateMenu(MenuData.menu_id, MenuData);
+      if (SubMenuData.sub_menu_id) {
+        const response = await authService.updateSubMenu(SubMenuData.sub_menu_id, SubMenuData);
         if (response?.message) {
           toast.success(response.message, {
             position: 'top-right',
@@ -37,7 +39,7 @@ const Menu = () => {
           });
         }
       } else {
-        const response = await authService.createMenu(MenuData);
+        const response = await authService.createSubMenu(SubMenuData);
         if (response?.message) {
           toast.success(response.message, {
             position: 'top-right',
@@ -46,8 +48,14 @@ const Menu = () => {
           });
         }
       }
-      getMenuDetails();
-      setMenuData({ menu_name: '', base_url: '', menu_order_no: '', menu_icon: '', active_yn: '' });
+      getSubMenuDetails();
+      setSubMenuData({ 
+        sub_menu_name: '',
+        base_url: '', 
+        menu_order_no: '', 
+        menu_icon: '', 
+        active_yn: '' 
+    });
   
     } catch (error) {
       toast.error('Failed to submit the menu.', {
@@ -60,12 +68,26 @@ const Menu = () => {
   
 
   const handleEdit = async(id) => {
-    const updateData = await authService.getMenuById(id);
-    setMenuData(updateData.menu);    
+    const updateData = await authService.getSubMenuById(id);
+    setSubMenuData(updateData.submenu);    
   };
 
-  const getMenuDetails = async() => { 
-    const response = await authService.getAllMenu();
+  const getSubMenuDetails = async() => { 
+    const response = await authService.getSubMenuById();
+    if (response.sub_menus) {
+      setSubMenuDetails(response.sub_menus);
+    }
+  };
+
+  const getAllSubmenus = async() => {
+    const response = await authService.getAllSubMenu(); 
+    if (response.submenus) {
+        setSubMenuDetails(response.submenus);
+    }
+    };  
+
+  const getActiveMenuDetails = async() => { 
+    const response = await authService.getAllActiveMenu();
     if (response.menus) {
       setMenuDetails(response.menus);
     }
@@ -73,7 +95,9 @@ const Menu = () => {
 
 
   useEffect(() => {
-    getMenuDetails();
+    getSubMenuDetails();
+    getActiveMenuDetails();
+    getAllSubmenus();
   }, []);
 
   return (
@@ -84,16 +108,38 @@ const Menu = () => {
              <div className="flex flex-col gap-9">
                <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">  
                  <div className="flex flex-col gap-5.5 p-6.5">
-                   <div>
+                 <div>
+                    <label className="mb-3 block text-lg text-black dark:text-white">
+                        Parent Menu Name
+                    </label>
+                    <select
+                        name="menu_id"
+                        value={SubMenuData.menu_id}
+                        onChange={handleInputChange}
+                        className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
+                    >
+                        <option value="">Select parent menu</option>
+                        {MenuDetails.map((option) => (
+                        <option
+                            key={option.menu_id}
+                            value={option.menu_id}
+                        >
+                            {option.menu_name}
+                        </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div>
                      <label className="mb-3 block text-lg text-black dark:text-white">
-                      Menu Name
+                      Sub Menu Name
                      </label>
                      <input
                        type="text"
-                       name='menu_name'
-                       value={MenuData.menu_name}
+                       name='sub_menu_name'
+                       value={SubMenuData.sub_menu_name}
                        onChange={handleInputChange}
-                       placeholder="Enter menu name"
+                       placeholder="Enter sub menu name"
                        className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
                      />
                    </div>
@@ -104,7 +150,7 @@ const Menu = () => {
                      <input
                        type="text"
                        name='base_url'
-                       value={MenuData.base_url}
+                       value={SubMenuData.base_url}
                        onChange={handleInputChange}
                        placeholder="Enter base url"
                        className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
@@ -113,25 +159,25 @@ const Menu = () => {
                  </div>
                  <div className="py-4 px-6.5">
                      <h3 className="font-medium text-black text-lg dark:text-white">
-                        Menu Order No
+                        Sub Menu Order No
                      </h3>
                      <input
                         type="number"
                         name='menu_order_no'
-                        value={MenuData.menu_order_no}
+                        value={SubMenuData.menu_order_no}
                         onChange={handleInputChange}
-                        placeholder="Enter menu order no"
+                        placeholder="Enter sub menu order no"
                         className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
                      />
                     </div>
                 <div className="py-4 px-6.5">
                     <h3 className="font-medium text-black text-lg dark:text-white">
-                        Menu Icon
+                        Sub Menu Icon
                     </h3>
                     <input
                         type="text"
                         name='menu_icon'
-                        value={MenuData.menu_icon}
+                        value={SubMenuData.menu_icon}
                         onChange={handleInputChange}
                         placeholder="Enter menu icon"
                         className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
@@ -150,7 +196,7 @@ const Menu = () => {
                   id="active" 
                   name="active_yn" 
                   value="Y"
-                  checked={MenuData.active_yn === 'Y'}
+                  checked={SubMenuData.active_yn === 'Y'}
                   onChange={handleInputChange}
                   />
                  </div>
@@ -160,7 +206,7 @@ const Menu = () => {
                  id="inActive" 
                  name="active_yn" 
                  value="N"
-                 checked={MenuData.active_yn === 'N'}
+                 checked={SubMenuData.active_yn === 'N'}
                  onChange={handleInputChange}
                  />
                  </div>
@@ -178,16 +224,16 @@ const Menu = () => {
              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                  <tr>
                      <th scope="col" className="px-6 py-3">
-                         Menu Name
+                         Sub Menu Name
                      </th>
                      <th scope="col" className="px-6 py-3">
                          Base Url
                         </th>
                     <th scope="col" className="px-6 py-3">
-                            Menu Order No
+                            Sub Menu Order No
                         </th>
                     <th scope="col" className="px-6 py-3">
-                            Menu Icon
+                           Sub Menu Icon
                         </th>
                      <th scope="col" className="px-6 py-3">
                          Status
@@ -198,28 +244,28 @@ const Menu = () => {
                  </tr>
              </thead>
              <tbody>
-             {MenuDetails.map((menuItem, key) =>
-                 <tr key={menuItem.menu_id}  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+             {SubMenuDetails.map((subsubMenuItem, key) =>
+                 <tr key={subsubMenuItem.sub_menu_id}  className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                         {menuItem.menu_name}
+                         {subsubMenuItem.sub_menu_name}
                      </th>
                     <td className="px-6 py-4">
-                            {menuItem.base_url}
+                            {subsubMenuItem.base_url}
                         </td>
                     <td className="px-6 py-4">
-                            {menuItem.menu_order_no}
+                            {subsubMenuItem.menu_order_no}
                         </td>
                     <td className="px-6 py-4">
-                            {menuItem.menu_icon}
+                            {subsubMenuItem.menu_icon}
                         </td>
                      <td className="px-6 py-4">
-                          {menuItem.active_yn === 'Y' ? 'Active' : 'In Active'}
+                          {subsubMenuItem.active_yn === 'Y' ? 'Active' : 'In Active'}
                      </td>
                      <td className="px-6 py-4">
                          <span>
                          <a onClick={(e) => {
                            e.preventDefault(); 
-                           handleEdit(menuItem.menu_id);
+                           handleEdit(subsubMenuItem.sub_menu_id);
                          }}
                          href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                          </span>
@@ -237,4 +283,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default SubMenu;

@@ -14,6 +14,8 @@ const DropdownUser = () => {
     window.location.href = '/';
   }
 
+  const user = JSON.parse(localStorage.getItem('user'));
+
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -23,9 +25,9 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+          {user.name}
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block text-xs">Software Engineer</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

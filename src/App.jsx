@@ -17,6 +17,7 @@ import Menu from './pages/Admin/Menu';
 import PrivateRoute from './utils/PrivateRoute';
 import Blog from './pages/Blog';
 import UserRole from './pages/Admin/UserRole';
+import SubMenu from './pages/Admin/SubMenu';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -86,6 +87,15 @@ function App() {
           <PrivateRoute>
             <PageTitle title="Menu" />
             <Menu />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="admin/submenu"
+        element={
+          <PrivateRoute>
+            <PageTitle title="Sub Menu" />
+            <SubMenu />
           </PrivateRoute>
         }
       />
