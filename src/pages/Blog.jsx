@@ -5,6 +5,8 @@ import authService from './Authentication/AuthService';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import { useUser } from '../contexts/UserContext';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const Blog = () => {
   const [blogData, setBlogData] = useState({
@@ -17,6 +19,7 @@ const Blog = () => {
     author_img: '',
     active_yn: '',
   });
+  console.log('blogData', blogData);
   const [blogDetails, setBlogDetails] = useState([]);
 
   const handleInputChange = (e) => {
@@ -24,6 +27,9 @@ const Blog = () => {
     setBlogData({ ...blogData, [name]: value });
   };
 
+  const handleQuillChange = (value) => {
+    setBlogData((prev) => ({ ...prev, blog_description: value }));
+  };
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     if (files.length > 0) {
@@ -99,6 +105,12 @@ const Blog = () => {
     }
   };
 
+  const stripHtml = (html, maxLength = 100) => {
+    const plainText = html.replace(/<[^>]*>?/gm, '');
+    return plainText.length > maxLength 
+        ? plainText.substring(0, maxLength) + ' ...'
+        : plainText;
+};
 
   useEffect(() => {
     getBlogDetails();
@@ -154,23 +166,7 @@ const Blog = () => {
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
               />
             </div>
-          </div>
-
-          {/* Right Column (3 fields) */}
-          <div className="flex flex-col gap-5.5">
-            <div>
-              <label className="mb-3 block text-lg text-black dark:text-white">
-                Blog Description
-              </label>
-              <textarea
-                type="text"
-                name="blog_description"
-                value={blogData.blog_description}
-                onChange={handleInputChange}
-                placeholder="Enter Blog Description"
-                className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
-              />
-            </div>
+            
 
             <div>
               <label className="mb-3 block text-lg text-black dark:text-white">
@@ -185,25 +181,6 @@ const Blog = () => {
                 className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
               />
             </div>
-
-            <div>
-            <label className="mb-3 block text-lg text-black dark:text-white">
-                Author Img
-              </label>
-              { blogData.author_img && 
-              <img src={blogData.author_img} alt="Author Img"  className='w-50 h-50 border-1 rounded-lg'/> 
-              }
-              <input
-                type="file"
-                name="author_img"
-                onChange={handleFileChange}
-                placeholder="Enter Author Img"
-                className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5
-                 text-black outline-none transition focus:border-primary active:border-primary
-                  disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
-              />
-            </div>
-
             <div>
               <label className="mb-3 block text-lg text-black dark:text-white">
                 Active Status
@@ -236,6 +213,50 @@ const Blog = () => {
                 />
               </div>
             </div>
+          </div>
+
+          {/* Right Column (3 fields) */}
+          <div className="flex flex-col gap-5.5">
+            {/* <div>
+              <label className="mb-3 block text-lg text-black dark:text-white">
+                Blog Description
+              </label>
+              <textarea
+                type="text"
+                name="blog_description"
+                value={blogData.blog_description}
+                onChange={handleInputChange}
+                placeholder="Enter Blog Description"
+                className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
+              />
+            </div> */}
+
+            <div>
+              <label className="mb-3 block text-lg text-black dark:text-white">
+                Blog Description 
+              </label>
+            <ReactQuill className="h-60" theme="snow" value={blogData.blog_description} onChange={handleQuillChange} />
+            </div>
+
+            <div>
+            <label className="mb-3 block mt-10 text-lg text-black dark:text-white">
+                Author Img
+              </label>
+              { blogData.author_img && 
+              <img src={blogData.author_img} alt="Author Img"  className='w-50 h-50 border-1 rounded-lg'/> 
+              }
+              <input
+                type="file"
+                name="author_img"
+                onChange={handleFileChange}
+                placeholder="Enter Author Img"
+                className="w-full rounded-lg border-[1.5px] border-primary bg-transparent py-2.5 px-5
+                 text-black outline-none transition focus:border-primary active:border-primary
+                  disabled:cursor-default disabled:bg-whiter dark:bg-form-input dark:text-white"
+              />
+            </div>
+
+            
           </div>
           <div>
             <button
@@ -296,7 +317,7 @@ const Blog = () => {
                     {blogItem.blog_title}
                   </th>
                   <td className="px-6 py-4">{blogItem.blog_sub_title}</td>
-                  <td className="px-6 py-4">{blogItem.blog_description}</td>
+                  <td className="px-6 py-4">{stripHtml(blogItem.blog_description)}</td>
                   <td className="px-6 py-4">{blogItem.blog_img ? 'Available' : 'Not Available'}</td>
                   <td className="px-6 py-4">
                     {blogItem.author_name}

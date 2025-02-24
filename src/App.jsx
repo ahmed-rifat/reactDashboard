@@ -18,6 +18,8 @@ import PrivateRoute from './utils/PrivateRoute';
 import Blog from './pages/Blog';
 import UserRole from './pages/Admin/UserRole';
 import SubMenu from './pages/Admin/SubMenu';
+import Contact from './pages/Contact';
+import Subscription from './pages/Subscription';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -142,6 +144,24 @@ function App() {
           <PrivateRoute>
             <PageTitle title="Blog" />
             <Blog />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/subscription"
+        element={
+          <PrivateRoute>
+            <PageTitle title="Subscription" />
+            <Subscription />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/contact"
+        element={
+          <PrivateRoute>
+            <PageTitle title="Contact" />
+            <Contact />
           </PrivateRoute>
         }
       />

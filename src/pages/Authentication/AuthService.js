@@ -360,6 +360,29 @@ class AuthService {
 
   // contact section
 
+  getAllContacts = async () => {
+    try {
+      const {data} = await this.api.get('/contacts/contacts');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  // subscription section
+
+  getAllSubscription = async () => {
+    try {
+      const {data} = await this.api.get('/subcriptions/subcriptions');
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+
   create = async (url, data) => {
     try {
       const response = await this.api.post(url, data);
